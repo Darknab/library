@@ -7,8 +7,13 @@ function Book(title, author, pages, read) {
   this.read = read;
 }
 
-function addBookToLibrary(book) {
-
+function addBookToLibrary() {
+  const newBook = new Book
+  newBook.title = document.querySelector("#title").value;
+  newBook.author = document.querySelector("#author").value;
+  newBook.pages = document.querySelector("#pages").value;
+  newBook.read = document.querySelector('input[name="read"]:checked').value;
+  myLibrary.push(newBook);
 }
 
 const redDragon = new Book("Red Dragon", "Thomas Harris", 448, true);
@@ -50,3 +55,18 @@ if (myLibrary.length === 0) {
     AddContentToCard(card, book);
   })
 }
+
+const showDialog = document.querySelector("#show-dialog");
+const dialog = document.querySelector("dialog");
+const submitButton = document.querySelector("#submit-button");
+const cancelButton = document.querySelector("#cancel-button");
+
+showDialog.addEventListener("click", () => {
+  dialog.showModal();
+});
+
+submitButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  addBookToLibrary();
+  dialog.close();
+})
