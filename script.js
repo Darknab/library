@@ -16,15 +16,23 @@ function addBookToLibrary() {
   myLibrary.push(newBook);
 }
 
-const redDragon = new Book("Red Dragon", "Thomas Harris", 448, true);
+/*const redDragon = new Book("Red Dragon", "Thomas Harris", 448, true);
 const silenceOfTheLambs = new Book("Silence of the lambs", "Thomas Harris", 368, true);
 const hannibal = new Book("Hannibal", "Thomas Harris", 486, false);
 
-myLibrary.push(redDragon, silenceOfTheLambs, hannibal);
+myLibrary.push(redDragon, silenceOfTheLambs, hannibal);*/
 
 const content = document.querySelector(".books");
 const emptyLibrary = document.createElement("p");
 
+function addCard(book) {
+  emptyLibrary.textContent = ""
+  const card = document.createElement("div");
+  card.classList.add("card");
+  card.setAttribute("id", `${myLibrary.length - 1}`)
+  content.appendChild(card);
+  AddContentToCard(card, book); 
+};
 
 function AddContentToCard(card, book) {
   const cardTitle = document.createElement("h3");
@@ -34,7 +42,7 @@ function AddContentToCard(card, book) {
   cardTitle.textContent = book.title;
   cardAuthor.textContent = book.author;
   cardPages.textContent = book.pages;
-  if (book.read === true) {
+  if (book.read === "true") {
     cardRead.textContent = "Already read";
     cardRead.classList.add("green");
   } else {
@@ -42,19 +50,12 @@ function AddContentToCard(card, book) {
     cardRead.classList.add("red");
   }
   card.append(cardTitle, cardAuthor, cardPages, cardRead);
-}
+};
 
 if (myLibrary.length === 0) {
   content.appendChild(emptyLibrary);
   emptyLibrary.textContent = "The library is empty now, you can add books by clicking on the Add Book button.";
-} else {
-  myLibrary.forEach((book) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    content.appendChild(card);
-    AddContentToCard(card, book);
-  })
-}
+} 
 
 const showDialog = document.querySelector("#show-dialog");
 const dialog = document.querySelector("dialog");
@@ -68,5 +69,6 @@ showDialog.addEventListener("click", () => {
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
   addBookToLibrary();
+  addCard(myLibrary[myLibrary.length - 1])
   dialog.close();
 })
