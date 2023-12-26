@@ -16,12 +16,6 @@ function addBookToLibrary() {
   myLibrary.push(newBook);
 }
 
-/*const redDragon = new Book("Red Dragon", "Thomas Harris", 448, true);
-const silenceOfTheLambs = new Book("Silence of the lambs", "Thomas Harris", 368, true);
-const hannibal = new Book("Hannibal", "Thomas Harris", 486, false);
-
-myLibrary.push(redDragon, silenceOfTheLambs, hannibal);*/
-
 const content = document.querySelector(".books");
 const emptyLibrary = document.createElement("p");
 
@@ -29,9 +23,10 @@ function addCard(book) {
   emptyLibrary.textContent = ""
   const card = document.createElement("div");
   card.classList.add("card");
-  card.setAttribute("id", `${myLibrary.length - 1}`)
+  card.setAttribute("id", `card-${myLibrary.length - 1}`)
   content.appendChild(card);
-  AddContentToCard(card, book); 
+  AddContentToCard(card, book);
+   
 };
 
 function AddContentToCard(card, book) {
@@ -39,6 +34,7 @@ function AddContentToCard(card, book) {
   const cardAuthor = document.createElement("p");
   const cardPages = document.createElement("p");
   const cardRead = document.createElement("p");
+  const deleteButton = document.createElement("button");
   cardTitle.textContent = book.title;
   cardAuthor.textContent = book.author;
   cardPages.textContent = book.pages;
@@ -49,7 +45,9 @@ function AddContentToCard(card, book) {
     cardRead.textContent = "Not read yet";
     cardRead.classList.add("red");
   }
-  card.append(cardTitle, cardAuthor, cardPages, cardRead);
+  deleteButton.classList.add("delete-button");
+  deleteButton.textContent = "Delete from library";
+  card.append(cardTitle, cardAuthor, cardPages, cardRead, deleteButton);
 };
 
 if (myLibrary.length === 0) {
@@ -69,6 +67,24 @@ showDialog.addEventListener("click", () => {
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
   addBookToLibrary();
-  addCard(myLibrary[myLibrary.length - 1])
+  addCard(myLibrary[myLibrary.length - 1]);
   dialog.close();
+});
+
+function removeCard(cardId) {
+  card = document.querySelector(`#${cardId}`);
+  console.log(cardId);
+  index = parseInt(cardId.replace("card-", ""));
+  delete myLibrary[index];
+  card.remove();
+  console.log("card removed!");
+};
+
+const books = document.querySelector(".books");
+
+books.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete-button")) {
+    const cardId = e.target.parentElement.id;
+    removeCard(cardId);
+  }
 })
