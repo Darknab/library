@@ -16,6 +16,24 @@ function addBookToLibrary() {
   myLibrary.push(newBook);
 }
 
+Book.prototype.toggleRead = function(cardId) {
+  const cardRead = document.querySelector(`#${cardId} .card-read`);
+  const cardSwitch = document.querySelector(`#${cardId} .switch`);
+  if (this.read === true) {
+    this.read = false;
+    cardRead.textContent = "Not read yet";
+    cardRead.classList.remove(".green");
+    cardRead.classList.add("red");
+    cardSwitch.textContent = String.fromCharCode(10004);
+  } else {
+    this.read = true;
+    cardRead.textContent = "Already read";
+    cardRead.classList.remove(".red");
+    cardRead.classList.add(".green");
+    cardSwitch.textContent = String.fromCharCode(10006);
+  }
+}
+
 const content = document.querySelector(".books");
 const emptyLibrary = document.createElement("p");
 
@@ -25,8 +43,7 @@ function addCard(book) {
   card.classList.add("card");
   card.setAttribute("id", `card-${myLibrary.length - 1}`)
   content.appendChild(card);
-  AddContentToCard(card, book);
-   
+  AddContentToCard(card, book);  
 };
 
 function AddContentToCard(card, book) {
@@ -34,20 +51,25 @@ function AddContentToCard(card, book) {
   const cardAuthor = document.createElement("p");
   const cardPages = document.createElement("p");
   const cardRead = document.createElement("p");
+  const cardSwitch = document.createElement("button");
   const deleteButton = document.createElement("button");
   cardTitle.textContent = book.title;
   cardAuthor.textContent = book.author;
   cardPages.textContent = book.pages;
+  cardRead.classList.add("card-read");
   if (book.read === "true") {
     cardRead.textContent = "Already read";
     cardRead.classList.add("green");
+    cardSwitch.textContent = String.fromCharCode(10006);
   } else {
     cardRead.textContent = "Not read yet";
     cardRead.classList.add("red");
+    cardSwitch.textContent = String.fromCharCode(10004);
   }
   deleteButton.classList.add("delete-button");
+  cardSwitch.classList.add("switch");
   deleteButton.textContent = "Delete from library";
-  card.append(cardTitle, cardAuthor, cardPages, cardRead, deleteButton);
+  card.append(cardTitle, cardAuthor, cardPages, cardRead, cardSwitch, deleteButton);
 };
 
 if (myLibrary.length === 0) {
@@ -74,17 +96,24 @@ submitButton.addEventListener("click", (e) => {
 function removeCard(cardId) {
   card = document.querySelector(`#${cardId}`);
   console.log(cardId);
-  index = parseInt(cardId.replace("card-", ""));
+  const index = parseInt(cardId.replace("card-", ""));
   delete myLibrary[index];
   card.remove();
   console.log("card removed!");
 };
 
-const books = document.querySelector(".books");
-
-books.addEventListener("click", (e) => {
+content.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-button")) {
     const cardId = e.target.parentElement.id;
     removeCard(cardId);
+  }
+})
+
+content.addEventListener("click", (e) => {
+  if (e.target.classList.contains("switch")) {
+    const cardId = e.target.parentElement.id;
+    const index = parseInt(cardId.replace("card-", ""));
+    const book = myLibrary[index];
+    book.toggleRead(cardId);
   }
 })
