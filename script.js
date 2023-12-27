@@ -16,6 +16,8 @@ function addBookToLibrary() {
   myLibrary.push(newBook);
 }
 
+// Function that toggles the read status of a book
+// Used cardId as a parameter to help update the card at the same time with the book instance 
 Book.prototype.toggleRead = function(cardId) {
   const cardRead = document.querySelector(`#${cardId} .card-read`);
   const cardSwitch = document.querySelector(`#${cardId} .switch`);
@@ -88,10 +90,12 @@ const dialog = document.querySelector("dialog");
 const submitButton = document.querySelector("#submit-button");
 const cancelButton = document.querySelector("#cancel-button");
 
+// Diasplay modal
 showDialog.addEventListener("click", () => {
   dialog.showModal();
 });
 
+// Add card
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
   addBookToLibrary();
@@ -106,6 +110,7 @@ function removeCard(cardId) {
   card.remove();
 };
 
+// Remove card
 content.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-button")) {
     const cardId = e.target.parentElement.id;
@@ -114,6 +119,7 @@ content.addEventListener("click", (e) => {
   }
 })
 
+// Toggle read status
 content.addEventListener("click", (e) => {
   if (e.target.classList.contains("switch")) {
     const cardId = e.target.parentElement.id;
