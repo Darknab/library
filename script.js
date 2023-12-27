@@ -24,14 +24,14 @@ Book.prototype.toggleRead = function(cardId) {
   if (this.read === true) {
     this.read = false;
     cardRead.textContent = "Not read yet";
-    cardRead.classList.remove(".green");
+    cardRead.classList.remove("green");
     cardRead.classList.add("red");
     cardSwitch.textContent = String.fromCharCode(10004);
   } else {
     this.read = true;
     cardRead.textContent = "Already read";
-    cardRead.classList.remove(".red");
-    cardRead.classList.add(".green");
+    cardRead.classList.remove("red");
+    cardRead.classList.add("green");
     cardSwitch.textContent = String.fromCharCode(10006);
   }
 }
