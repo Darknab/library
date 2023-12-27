@@ -1,0 +1,131 @@
+:root {
+  --bg-color-primary:  #2f2f3b;
+  --bg-color-secondary: #86a0b7;
+  --bg-color-main: #5c7c77;
+  --bg-color-light: #eceeec;
+  --font-color-light: #eceeec;
+  --font-color-dark: #2f2f3b;
+
+  --font-family-primary: system-ui, sans-serif;
+  --font-family-heading: ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa, Manjari, 'Arial Rounded MT', 'Arial Rounded MT Bold', Calibri, source-sans-pro, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color-light);
+  color: var(--font-color-dark);
+  font-family: var(--font-family-primary);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-family-heading);
+}
+
+h1 {
+  text-align: center;
+}
+
+main {
+  padding: 1em;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+button,
+input[type=submit] {
+  padding: 0.6em 1em;
+  background-color: var(--bg-color-primary);
+  border-radius: 10px;
+  color: var(--font-color-light);
+  font-family: var(--font-family-primary);
+  font-weight: bold;
+  
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+#show-dialog {
+  display: block;
+  margin: 0 auto;
+}
+dialog {
+  margin: auto;
+  padding: 4em;
+  background-color: var(--bg-color-main);
+  color: var(--font-color-light);
+}
+
+input[type=text],
+input[type=number] {
+  width: 100%;
+  font-family: var(--font-family-primary);
+  color: var(--font-color-dark);
+  font-size: 1em;
+  padding:0.5em 1em;
+  border-radius: 10px;
+  transition: 200ms;
+
+  &:active,
+  &:focus {
+    background-color: var(--bg-color-light);
+    outline: none;
+    transform: scale(1.05);
+  }
+}
+
+label {
+  margin-top: 1em;
+  margin-left: 1em;
+}
+
+input[type=submit] {
+  margin-top: 2em;
+  
+}
+
+
+.books {
+  margin-top: 4em;
+  display: flex;
+  gap: 2em;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background-color: var(--bg-color-secondary);
+  color: var(--font-color-light);
+  padding: 3em 2em;
+  border-radius: 10px;
+
+  & .card-read {
+    display: inline-block;
+    
+  }
+
+  & .switch {
+    margin-left: 2em;
+    background-color: transparent;
+    border: none;
+  }
+
+  & .delete-button {
+    display: block;
+    margin-top: 1em;
+  }
+}
