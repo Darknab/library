@@ -137,6 +137,7 @@ input[type=submit] {
   background-color: var(--bg-color-secondary);
   color: var(--font-color-light);
   padding: 2em;
+  width: 250px;
   border-radius: 10px;
 
   & h3 {
@@ -157,8 +158,16 @@ input[type=submit] {
 
   & .delete-button {
     display: block;
-    margin-top: 1em;
+    margin: 1em auto 1em auto;
   }
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
 }
 
 footer {
