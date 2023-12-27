@@ -111,8 +111,13 @@ input[type=submit] {
 .card {
   background-color: var(--bg-color-secondary);
   color: var(--font-color-light);
-  padding: 3em 2em;
+  padding: 2em;
   border-radius: 10px;
+
+  & h3 {
+    margin-bottom: 1em;
+    text-align: center;
+  }
 
   & .card-read {
     display: inline-block;

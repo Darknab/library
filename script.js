@@ -38,7 +38,9 @@ const content = document.querySelector(".books");
 const emptyLibrary = document.createElement("p");
 
 function addCard(book) {
-  emptyLibrary.textContent = ""
+  if (document.contains(emptyLibrary)) {
+    emptyLibrary.remove()
+  }
   const card = document.createElement("div");
   card.classList.add("card");
   card.setAttribute("id", `card-${myLibrary.length - 1}`)
@@ -54,8 +56,8 @@ function AddContentToCard(card, book) {
   const cardSwitch = document.createElement("button");
   const deleteButton = document.createElement("button");
   cardTitle.textContent = book.title;
-  cardAuthor.textContent = book.author;
-  cardPages.textContent = book.pages;
+  cardAuthor.textContent = "Author: " + book.author;
+  cardPages.textContent = "pages: " + book.pages;
   cardRead.classList.add("card-read");
   if (book.read === "true") {
     cardRead.textContent = "Already read";
@@ -72,10 +74,14 @@ function AddContentToCard(card, book) {
   card.append(cardTitle, cardAuthor, cardPages, cardRead, cardSwitch, deleteButton);
 };
 
-if (myLibrary.length === 0) {
-  content.appendChild(emptyLibrary);
-  emptyLibrary.textContent = "The library is empty now, you can add books by clicking on the Add Book button.";
-} 
+function displayMessageIfEmpty () {
+  if (myLibrary.length === 0) {
+    content.appendChild(emptyLibrary);
+    emptyLibrary.textContent = "The library is empty now, you can add books by clicking on the Add Book button.";
+  }
+}
+
+displayMessageIfEmpty();
 
 const showDialog = document.querySelector("#show-dialog");
 const dialog = document.querySelector("dialog");
@@ -95,17 +101,16 @@ submitButton.addEventListener("click", (e) => {
 
 function removeCard(cardId) {
   card = document.querySelector(`#${cardId}`);
-  console.log(cardId);
-  const index = parseInt(cardId.replace("card-", ""));
-  delete myLibrary[index];
+  const cardIndex = parseInt(cardId.replace("card-", ""));
+  myLibrary.splice(cardIndex);
   card.remove();
-  console.log("card removed!");
 };
 
 content.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-button")) {
     const cardId = e.target.parentElement.id;
     removeCard(cardId);
+    displayMessageIfEmpty();
   }
 })
 
