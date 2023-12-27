@@ -10,8 +10,11 @@ function Book(title, author, pages, read) {
 function addBookToLibrary() {
   const newBook = new Book
   newBook.title = document.querySelector("#title").value;
+  document.querySelector("#title").value = "";
   newBook.author = document.querySelector("#author").value;
+  document.querySelector("#author").value = "";
   newBook.pages = document.querySelector("#pages").value;
+  document.querySelector("#pages").value = ""
   newBook.read = document.querySelector('input[name="read"]:checked').value;
   myLibrary.push(newBook);
 }
