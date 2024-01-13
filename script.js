@@ -1,10 +1,52 @@
 let myLibrary = [];
 
-function Book(title, author, pages, read) {
+/*function Book(title, author, pages, read) {
   this.title = title;
   this.author = author; 
   this.pages = pages;
   this.read = read;
+}*/
+
+class Book {
+
+  constructor (title, author, pages, read) {
+    this._title = title;
+    this._author = author; 
+    this._pages = pages;
+    this._read = read;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  get author() {
+    return this._author;
+  }
+
+  get pages() {
+    return this._pages;
+  }
+
+  get read() {
+    return this._read;
+  }
+
+  set title(title) {
+    this._title = title;
+  }
+
+  set author(author) {
+    this._author = author;
+  }
+
+  set pages(pages) {
+    this._pages = pages;
+  }
+
+  set read(read) {
+    this._read = read;
+  }
 }
 
 function addBookToLibrary() {
