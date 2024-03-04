@@ -182,3 +182,7 @@ footer {
     opacity: 0.8;
   }
 }
+
+input:invalid:focus {
+  border: 2px dashed red;
+}

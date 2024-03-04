@@ -134,8 +134,9 @@ const showDialog = document.querySelector("#show-dialog");
 const dialog = document.querySelector("dialog");
 const submitButton = document.querySelector("#submit-button");
 const cancelButton = document.querySelector("#cancel-button");
+const form = document.querySelector('form');
 
-// Diasplay modal
+// Display modal
 showDialog.addEventListener("click", () => {
   dialog.showModal();
 });
@@ -143,9 +144,12 @@ showDialog.addEventListener("click", () => {
 // Add card
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
-  addBookToLibrary();
-  addCard(myLibrary[myLibrary.length - 1]);
-  dialog.close();
+  if (form.checkValidity()) {
+    addBookToLibrary();
+    addCard(myLibrary[myLibrary.length - 1]);
+    dialog.close();
+  }
+  
 });
 
 function removeCard(cardId) {
@@ -172,4 +176,10 @@ content.addEventListener("click", (e) => {
     const book = myLibrary[index];
     book.toggleRead(cardId);
   }
+})
+
+// cancel button
+cancelButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  dialog.close();
 })
