@@ -1,14 +1,4 @@
-let myLibrary = [];
-
-/*function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author; 
-  this.pages = pages;
-  this.read = read;
-}*/
-
 class Book {
-
   constructor (title, author, pages, read) {
     this._title = title;
     this._author = author; 
@@ -49,6 +39,21 @@ class Book {
   }
 }
 
+function getLibrary() {
+  if (localStorage.getItem('library')) {
+    return JSON.parse(localStorage.getItem('library'));
+  } else {
+    return [];
+  }
+}
+
+function saveLibrary() {
+  const updatedLibrary = JSON.stringify(myLibrary);
+  localStorage.setItem('library', updatedLibrary);
+}
+
+let myLibrary = getLibrary();
+
 function addBookToLibrary() {
   const newBook = new Book
   newBook.title = document.querySelector("#title").value;
@@ -59,26 +64,7 @@ function addBookToLibrary() {
   document.querySelector("#pages").value = ""
   newBook.read = document.querySelector('input[name="read"]:checked').value;
   myLibrary.push(newBook);
-}
-
-// Function that toggles the read status of a book
-// Used cardId as a parameter to help update the card at the same time with the book instance 
-Book.prototype.toggleRead = function(cardId) {
-  const cardRead = document.querySelector(`#${cardId} .card-read`);
-  const cardSwitch = document.querySelector(`#${cardId} .switch`);
-  if (this.read === true) {
-    this.read = false;
-    cardRead.textContent = "Not read yet";
-    cardRead.classList.remove("green");
-    cardRead.classList.add("red");
-    cardSwitch.textContent = String.fromCharCode(10004);
-  } else {
-    this.read = true;
-    cardRead.textContent = "Already read";
-    cardRead.classList.remove("red");
-    cardRead.classList.add("green");
-    cardSwitch.textContent = String.fromCharCode(10006);
-  }
+  saveLibrary();
 }
 
 const content = document.querySelector(".books");
@@ -86,11 +72,11 @@ const emptyLibrary = document.createElement("p");
 
 function addCard(book) {
   if (document.contains(emptyLibrary)) {
-    emptyLibrary.remove()
+    emptyLibrary.remove();
   }
   const card = document.createElement("div");
   card.classList.add("card");
-  card.setAttribute("id", `card-${myLibrary.length - 1}`)
+  card.setAttribute("id", `card-${myLibrary.indexOf(book)}`);
   content.appendChild(card);
   AddContentToCard(card, book);  
 };
@@ -102,11 +88,11 @@ function AddContentToCard(card, book) {
   const cardRead = document.createElement("p");
   const cardSwitch = document.createElement("button");
   const deleteButton = document.createElement("button");
-  cardTitle.textContent = book.title;
-  cardAuthor.textContent = "Author: " + book.author;
-  cardPages.textContent = "pages: " + book.pages;
+  cardTitle.textContent = book._title;
+  cardAuthor.textContent = "Author: " + book._author;
+  cardPages.textContent = "pages: " + book._pages;
   cardRead.classList.add("card-read");
-  if (book.read === "true") {
+  if (book._read === true) {
     cardRead.textContent = "Already read";
     cardRead.classList.add("green");
     cardSwitch.textContent = String.fromCharCode(10006);
@@ -121,14 +107,18 @@ function AddContentToCard(card, book) {
   card.append(cardTitle, cardAuthor, cardPages, cardRead, cardSwitch, deleteButton);
 };
 
-function displayMessageIfEmpty () {
+function displayBooks () {
   if (myLibrary.length === 0) {
     content.appendChild(emptyLibrary);
     emptyLibrary.textContent = "The library is empty now, you can add books by clicking on the Add Book button.";
+  } else {
+    myLibrary.forEach(book => {
+      addCard(book);
+    });
   }
 }
 
-displayMessageIfEmpty();
+displayBooks();
 
 const showDialog = document.querySelector("#show-dialog");
 const dialog = document.querySelector("dialog");
@@ -174,9 +164,28 @@ content.addEventListener("click", (e) => {
     const cardId = e.target.parentElement.id;
     const index = parseInt(cardId.replace("card-", ""));
     const book = myLibrary[index];
-    book.toggleRead(cardId);
+    toggleRead(book, cardId);
   }
-})
+});
+
+function toggleRead(book, cardId) {
+  const cardRead = document.querySelector(`#${cardId} .card-read`);
+  const cardSwitch = document.querySelector(`#${cardId} .switch`);
+  if (book._read === true) {
+    book._read = false;
+    cardRead.textContent = "Not read yet";
+    cardRead.classList.remove("green");
+    cardRead.classList.add("red");
+    cardSwitch.textContent = String.fromCharCode(10004);
+  } else {
+    book._read = true;
+    cardRead.textContent = "Already read";
+    cardRead.classList.remove("red");
+    cardRead.classList.add("green");
+    cardSwitch.textContent = String.fromCharCode(10006);
+  }
+  saveLibrary();
+}
 
 // cancel button
 cancelButton.addEventListener('click', (e) => {
